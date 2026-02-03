@@ -57,8 +57,118 @@ def configure_page():
     st.markdown(
         """
         <style>
-        .main { padding: 2rem; }
-        .stButton > button { width: 100%; }
+        /* Main gradient background */
+        .stApp {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* Content container with glass effect */
+        .main .block-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        /* Sidebar styling */
+        section[data-testid="stSidebar"] {
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        section[data-testid="stSidebar"] > div {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Sidebar text color */
+        section[data-testid="stSidebar"] * {
+            color: white !important;
+        }
+        
+        /* Input fields */
+        .stTextInput > div > div > input {
+            border-radius: 10px;
+            border: 2px solid #667eea;
+            padding: 12px;
+            font-size: 16px;
+        }
+        
+        /* Buttons */
+        .stButton > button {
+            width: 100%;
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+        
+        .stButton > button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Primary button */
+        .stButton > button[kind="primary"] {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        /* Metrics */
+        div[data-testid="stMetricValue"] {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        /* Headers */
+        h1 {
+            color: #2d3748;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2, h3 {
+            color: #2d3748;
+            font-weight: 700;
+        }
+        
+        /* Success/Error messages */
+        .stSuccess, .stError, .stInfo, .stWarning {
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+        
+        /* Expander */
+        .streamlit-expanderHeader {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* Download button */
+        .stDownloadButton > button {
+            background: linear-gradient(135deg, #48c6ef 0%, #6f86d6 100%);
+        }
+        
+        /* Summary text container */
+        .summary-container {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            line-height: 1.8;
+        }
         </style>
         """,
         unsafe_allow_html=True,
@@ -67,11 +177,24 @@ def configure_page():
 
 def render_header():
     """Render application header."""
-    col1, col2 = st.columns([0.8, 0.2])
-    with col1:
-        st.title(config.PAGE_TITLE)
-        st.markdown("**Transform any content into concise, actionable summaries**")
-    with col2:
+    st.markdown(
+        """
+        <div style='text-align: center; padding: 2rem 0;'>
+            <h1 style='font-size: 3.5rem; margin-bottom: 0.5rem;'>🎬 YT Web Summarizer</h1>
+            <p style='font-size: 1.3rem; color: #4a5568; font-weight: 500;'>
+                ✨ Transform any content into concise, actionable summaries ✨
+            </p>
+            <p style='font-size: 1rem; color: #718096; margin-top: 0.5rem;'>
+                Powered by AI • YouTube & Websites • Multiple Summary Styles
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    
+    # Device info in corner
+    col1, col2, col3 = st.columns([1, 6, 1])
+    with col3:
         device_info = "🚀 GPU" if torch.cuda.is_available() else "💻 CPU"
         st.metric("Device", device_info)
 
@@ -295,7 +418,7 @@ def main():
 
                 with result_col1:
                     st.markdown("### 📄 Summary")
-                    st.write(summary)
+                    st.markdown(f'<div class="summary-container">{summary}</div>', unsafe_allow_html=True)
 
                 with result_col2:
                     st.markdown("### 📊 Statistics")
