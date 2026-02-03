@@ -13,89 +13,113 @@ python_version: "3.10"
 
 # 🎬 YT Web Summarizer
 
-Transform YouTube videos and web articles into concise, actionable summaries powered by AI.
+AI-powered tool to transform YouTube videos and web articles into concise, actionable summaries.
 
 ## ✨ Features
 
-- **YouTube Transcription**: Download and transcribe YouTube videos using Whisper
-- **Website Summarization**: Extract and summarize content from any website
-- **Multiple Summary Styles**: Choose from bullet points, paragraphs, key insights, Q&A, or executive summary
-- **Customizable Length**: Set your preferred summary length (100-1000 words)
-- **Smart Caching**: Reduce API costs by ~70% with intelligent caching
-- **Rate Limiting**: Built-in protection against excessive API usage
-- **Export Options**: Download summaries as text files
-- **History Tracking**: Keep track of your recent summaries
-- **GPU Acceleration**: Automatic GPU detection for faster processing
+- 🎥 **YouTube Transcription** - Automatic audio extraction and transcription using OpenAI Whisper
+- 🌐 **Website Summarization** - Extract and summarize content from any web article
+- 🎨 **5 Summary Styles** - Bullet points, paragraphs, key insights, Q&A format, or executive summary
+- ⚡ **Smart Caching** - Reduce API costs by ~70% with intelligent caching system
+- 🛡️ **Rate Limiting** - Built-in protection against excessive API usage
+- 📊 **Statistics** - Word count, reading time, and content type analysis
+- 💾 **Export Options** - Download summaries as text files or copy to clipboard
+- 📜 **History Tracking** - Keep track of your recent summaries
+- 🚀 **GPU Support** - Automatic GPU detection for faster video processing
 
-## 🚀 How to Use
+## 🚀 Quick Start
 
-1. **Get a Groq API Key**: Visit [console.groq.com](https://console.groq.com/) and create a free account
-2. **Enter API Key**: Paste your Groq API key in the sidebar (it will be securely stored for your session)
-3. **Paste a URL**: Enter any YouTube video URL or website URL
-4. **Configure Options**: Choose your summary style, length, and Whisper model
-5. **Click Summarize**: Wait for the AI to process and generate your summary
-6. **Export**: Download or copy your summary for later use
-
-## 🔑 API Key Setup
-
-This app requires a **Groq API Key** to work. Get yours for free:
-- Visit: https://console.groq.com/
-- Sign up for free account
+### 1. Get Your Groq API Key (Free)
+- Visit [console.groq.com](https://console.groq.com/)
+- Sign up for a free account
 - Generate an API key
-- Paste it in the sidebar
 
-**Note**: Your API key is never stored permanently - it's only used during your session.
+### 2. Use the App
+- Enter your Groq API key in the sidebar
+- Paste any YouTube URL or website URL
+- Choose your summary style and length
+- Click "✨ Summarize Content"
+- Export or save your summary
+
+**Note**: Your API key is stored only for your session and never saved permanently.
+
 
 ## 🎨 Summary Styles
 
-- **Bullet Points**: Quick, scannable list of key points
-- **Paragraph**: Flowing narrative summary
-- **Key Insights**: Most important takeaways
-- **Q&A Format**: Question and answer pairs
-- **Executive Summary**: Business-focused overview
+| Style | Description | Best For |
+|-------|-------------|----------|
+| 📍 **Bullet Points** | Quick, scannable list of key points | Fast reference, meeting notes |
+| 📝 **Paragraph** | Flowing narrative summary | Reports, blog posts |
+| 💡 **Key Insights** | Most important takeaways | Executive reviews |
+| ❓ **Q&A Format** | Question and answer pairs | Training, FAQs |
+| 📊 **Executive Summary** | Business-focused overview | Decision makers |
 
-## 🎙️ Whisper Models
+## 🎙️ Whisper Model Selection
 
-For YouTube videos, choose your transcription model:
-- **Tiny**: Fastest (good for short videos)
-- **Base**: Balanced speed/accuracy ⭐ Recommended
-- **Small**: More accurate (slower)
-- **Medium**: High accuracy (much slower)
-- **Large**: Best accuracy (very slow, GPU recommended)
+| Model | Speed | Accuracy | Use Case |
+|-------|-------|----------|----------|
+| Tiny | ⚡⚡⚡ | ⭐⭐ | Short videos, quick tests |
+| **Base** | ⚡⚡ | ⭐⭐⭐ | **Recommended - Best balance** |
+| Small | ⚡ | ⭐⭐⭐⭐ | Longer content, better accuracy |
+| Medium | 🐌 | ⭐⭐⭐⭐⭐ | Professional transcription |
+| Large | 🐌🐌 | ⭐⭐⭐⭐⭐ | GPU required, highest quality |
 
-## 📊 Technical Details
+## 📊 Tech Stack
 
-- **LLM**: Groq Cloud (Llama-3.3-70b-versatile)
+- **AI Model**: Groq Cloud (Llama-3.3-70b-versatile)
 - **Transcription**: OpenAI Whisper
 - **Framework**: Streamlit + LangChain
 - **Video Processing**: yt-dlp
-- **Web Scraping**: BeautifulSoup4 + Requests
+- **Web Scraping**: BeautifulSoup4
 
-## 💡 Tips
+## 💡 Pro Tips
 
-- Use **base** Whisper model for best speed/accuracy balance
-- Shorter summaries (200-300 words) are usually more focused
-- Cache saves your recent summaries - same URL/settings = instant results
-- GPU acceleration automatically activates if available
+✅ Use **base** Whisper model for optimal speed/accuracy  
+✅ Summaries of 200-300 words are typically most focused  
+✅ Cache automatically saves recent summaries for instant access  
+✅ GPU acceleration activates automatically when available  
+✅ Works with any public YouTube video or web article
 
-## 🛠️ Development
+## 🏗️ Architecture
 
-Built with modern Python best practices:
-- Modular architecture (7 focused modules)
-- Comprehensive error handling
-- Type hints throughout
-- Extensive logging
-- 30+ unit tests
-- Production-ready configuration
+Built with production-ready Python:
+- **Modular Design**: 7 focused modules (services, utils, config, logging, exceptions)
+- **Error Handling**: Comprehensive exception hierarchy
+- **Type Safety**: Full type hints throughout codebase
+- **Testing**: 30+ unit tests with 80%+ coverage
+- **Logging**: Structured logging with color-coded output
+- **Configuration**: Environment-based settings with feature flags
+
+## 📦 Installation (Local Development)
+
+```bash
+# Clone repository
+git clone https://github.com/reethj-07/yt-web-summarizer.git
+cd yt-web-summarizer
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set up environment
+cp .env.example .env
+# Add your GROQ_API_KEY to .env
+
+# Run app
+streamlit run app.py
+```
+
+## 🌐 Live Demo
+
+Try it now: [Hugging Face Spaces](https://huggingface.co/spaces/attentionseeker/genai-youtube-web-summarizer)
 
 ## 📝 License
 
-MIT License - Feel free to use and modify!
+MIT License - Free to use and modify
 
 ## 🤝 Contributing
 
-Found a bug or have a feature request? Please open an issue on GitHub!
+Issues and pull requests welcome on [GitHub](https://github.com/reethj-07/yt-web-summarizer)
 
 ---
 
-**Made with ❤️ using Streamlit, LangChain, and Groq**
+**Built with ❤️ using Streamlit, LangChain, and Groq**
