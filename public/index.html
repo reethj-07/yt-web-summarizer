@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Summarizer Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.3s ease-in;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .summary-text {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-box {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.show {
+            display: block;
+            animation: slideIn 0.3s ease-in;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .export-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .export-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .export-buttons button {
+            padding: 10px;
+            font-size: 0.9em;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Content Summarizer Pro</h1>
+            <p>Transform any content into concise, actionable summaries</p>
+        </div>
+
+        <div class="card">
+            <div class="alert alert-error" id="errorAlert"></div>
+            <div class="alert alert-success" id="successAlert"></div>
+
+            <form id="summarizeForm">
+                <div class="form-group">
+                    <label for="apiKey">🔑 Groq API Key</label>
+                    <input type="password" id="apiKey" required placeholder="Enter your Groq API key">
+                    <small>Get your free API key at <a href="https://console.groq.com/" target="_blank">console.groq.com</a></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="url">📺 URL (YouTube or Website)</label>
+                    <input type="text" id="url" required placeholder="https://www.youtube.com/watch?v=... or https://example.com">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="style">📝 Summary Style</label>
+                        <select id="style">
+                            <option value="balanced">Balanced</option>
+                            <option value="bullet_points">Bullet Points</option>
+                            <option value="executive">Executive</option>
+                            <option value="technical">Technical</option>
+                            <option value="simplified">Simplified</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="length">📊 Summary Length</label>
+                        <input type="range" id="length" min="100" max="1000" value="300" step="50">
+                        <small id="lengthValue">300 words</small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="whisperModel">🎙️ Whisper Model (for YouTube)</label>
+                    <select id="whisperModel">
+                        <option value="base">Base (Fast)</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large (Most Accurate)</option>
+                    </select>
+                </div>
+
+                <button type="submit">✨ Summarize Content</button>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing your content...</p>
+            </div>
+
+            <div class="result" id="result">
+                <h2>📄 Summary</h2>
+                <div class="summary-text" id="summaryText"></div>
+
+                <h3>📊 Statistics</h3>
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Words</div>
+                        <div class="stat-value" id="wordCount">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Reading Time</div>
+                        <div class="stat-value" id="readingTime">0 min</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Content Type</div>
+                        <div class="stat-value" id="urlType">Web</div>
+                    </div>
+                </div>
+
+                <div class="export-buttons">
+                    <button type="button" onclick="copyToClipboard()">📋 Copy</button>
+                    <button type="button" onclick="downloadText()">📄 Download</button>
+                    <button type="button" onclick="resetForm()">🔄 New</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Made with ❤️ for content excellence</p>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = '/api/summarize';
+        let currentSummary = '';
+
+        // Update length display
+        document.getElementById('length').addEventListener('input', function() {
+            document.getElementById('lengthValue').textContent = this.value + ' words';
+        });
+
+        // Form submission
+        document.getElementById('summarizeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            await summarize();
+        });
+
+        async function summarize() {
+            const apiKey = document.getElementById('apiKey').value;
+            const url = document.getElementById('url').value;
+            const style = document.getElementById('style').value;
+            const length = parseInt(document.getElementById('length').value);
+            const whisperModel = document.getElementById('whisperModel').value;
+
+            // Clear alerts
+            hideAlert('errorAlert');
+            hideAlert('successAlert');
+
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').classList.remove('show');
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        url,
+                        api_key: apiKey,
+                        style,
+                        length,
+                        whisper_model: whisperModel
+                    })
+                });
+
+                document.getElementById('loading').style.display = 'none';
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    showAlert('errorAlert', '❌ ' + (error.detail || 'Error processing request'));
+                    return;
+                }
+
+                const data = await response.json();
+                displayResult(data);
+                showAlert('successAlert', '✅ Summary generated successfully!');
+
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                showAlert('errorAlert', '❌ ' + error.message);
+            }
+        }
+
+        function displayResult(data) {
+            currentSummary = data.summary;
+            document.getElementById('summaryText').textContent = data.summary;
+            document.getElementById('wordCount').textContent = data.word_count;
+            document.getElementById('readingTime').textContent = data.reading_time + ' min';
+            document.getElementById('urlType').textContent = data.url_type.charAt(0).toUpperCase() + data.url_type.slice(1);
+            
+            document.getElementById('result').classList.add('show');
+        }
+
+        function showAlert(elementId, message) {
+            const alert = document.getElementById(elementId);
+            alert.textContent = message;
+            alert.classList.add('show');
+        }
+
+        function hideAlert(elementId) {
+            const alert = document.getElementById(elementId);
+            alert.classList.remove('show');
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(currentSummary).then(() => {
+                showAlert('successAlert', '✅ Copied to clipboard!');
+            }).catch(() => {
+                showAlert('errorAlert', '❌ Failed to copy');
+            });
+        }
+
+        function downloadText() {
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(currentSummary));
+            element.setAttribute('download', `summary_${new Date().toISOString().slice(0, 10)}.txt`);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        function resetForm() {
+            document.getElementById('summarizeForm').reset();
+            document.getElementById('result').classList.remove('show');
+            document.getElementById('lengthValue').textContent = '300 words';
+        }
+    </script>
+</body>
+</html>
