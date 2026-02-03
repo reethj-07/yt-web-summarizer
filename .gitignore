@@ -62,7 +62,6 @@ logs/
 
 # Cache
 *.cache
-.streamlit/
 
 # Temporary files
 tmp/
