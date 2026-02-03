@@ -51,12 +51,18 @@ class YouTubeService:
         try:
             logger.info(f"Starting YouTube download: {url}")
 
-            # Configure yt-dlp options
+            # Configure yt-dlp options with headers for YouTube compatibility
             ydl_opts = {
                 "format": "bestaudio[ext=m4a]/bestaudio/best",
                 "quiet": False,
                 "no_warnings": False,
                 "noplaylist": True,
+                "socket_timeout": 30,
+                "quiet": False,
+                "no_warnings": False,
+                "http_headers": {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+                },
                 "postprocessors": [
                     {
                         "key": "FFmpegExtractAudio",
