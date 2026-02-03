@@ -1,295 +1,101 @@
-# 🎯 Content Summarizer Pro
+---
+title: YT Web Summarizer
+emoji: 🎬
+colorFrom: purple
+colorTo: pink
+sdk: streamlit
+sdk_version: "1.40.2"
+app_file: app.py
+pinned: false
+license: mit
+python_version: "3.10"
+---
 
-**Production-Grade Content Summarization Platform**
+# 🎬 YT Web Summarizer
 
-Transform YouTube videos and website content into concise, actionable summaries using advanced AI models. Built with production-level code quality, security, and scalability.
+Transform YouTube videos and web articles into concise, actionable summaries powered by AI.
 
-![License](https://img.shields.io/badge/license-MIT-blue)
-![Python](https://img.shields.io/badge/python-3.9%2B-blue)
-![Tests](https://img.shields.io/badge/tests-passing-green)
-![Docker](https://img.shields.io/badge/docker-ready-blue)
+## ✨ Features
 
-## ✨ Key Features
+- **YouTube Transcription**: Download and transcribe YouTube videos using Whisper
+- **Website Summarization**: Extract and summarize content from any website
+- **Multiple Summary Styles**: Choose from bullet points, paragraphs, key insights, Q&A, or executive summary
+- **Customizable Length**: Set your preferred summary length (100-1000 words)
+- **Smart Caching**: Reduce API costs by ~70% with intelligent caching
+- **Rate Limiting**: Built-in protection against excessive API usage
+- **Export Options**: Download summaries as text files
+- **History Tracking**: Keep track of your recent summaries
+- **GPU Acceleration**: Automatic GPU detection for faster processing
 
-### Core Functionality
-- 📺 **YouTube Summarization**: Auto-transcribe videos with Whisper and generate summaries
-- 🌐 **Website Summarization**: Extract and summarize web content intelligently
-- 🤖 **Advanced LLM Integration**: Powered by Groq's fast inference API
-- 🎨 **5 Summary Styles**: Balanced, Bullet Points, Executive, Technical, Simplified
+## 🚀 How to Use
 
-### Enterprise Features
-- ⚡ **Smart Caching**: 1-hour TTL to reduce API costs
-- 🔒 **Rate Limiting**: Prevent abuse with configurable request limits
-- 📚 **Summary History**: Track all previous summaries with timestamps
-- 📥 **Multiple Export Formats**: Download as Text, JSON, or Markdown
-- 🌍 **Multi-Language Support**: Process content in 6+ languages
-- 📊 **Usage Analytics**: Track metrics and performance statistics
-- 🔄 **Error Recovery**: Automatic retry with exponential backoff
-- 📝 **Comprehensive Logging**: Debug and monitor with structured logs
-- 🔐 **Security Best Practices**: Secure API key validation and storage
+1. **Get a Groq API Key**: Visit [console.groq.com](https://console.groq.com/) and create a free account
+2. **Enter API Key**: Paste your Groq API key in the sidebar (it will be securely stored for your session)
+3. **Paste a URL**: Enter any YouTube video URL or website URL
+4. **Configure Options**: Choose your summary style, length, and Whisper model
+5. **Click Summarize**: Wait for the AI to process and generate your summary
+6. **Export**: Download or copy your summary for later use
 
-## 🚀 Quick Start
+## 🔑 API Key Setup
 
-### Prerequisites
-- Python 3.9+
-- Groq API Key ([Get it free](https://console.groq.com/))
-- FFmpeg (for audio processing)
+This app requires a **Groq API Key** to work. Get yours for free:
+- Visit: https://console.groq.com/
+- Sign up for free account
+- Generate an API key
+- Paste it in the sidebar
 
-### Installation (2 minutes)
+**Note**: Your API key is never stored permanently - it's only used during your session.
 
-```bash
-# 1. Clone repository
-git clone https://github.com/reethj-07/yt-web-summarizer.git
-cd yt-web-summarizer
+## 🎨 Summary Styles
 
-# 2. Create virtual environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+- **Bullet Points**: Quick, scannable list of key points
+- **Paragraph**: Flowing narrative summary
+- **Key Insights**: Most important takeaways
+- **Q&A Format**: Question and answer pairs
+- **Executive Summary**: Business-focused overview
 
-# 3. Install dependencies
-pip install -r requirements.txt
+## 🎙️ Whisper Models
 
-# 4. Configure API key
-cp .env.example .env
-# Edit .env and add your Groq API key
+For YouTube videos, choose your transcription model:
+- **Tiny**: Fastest (good for short videos)
+- **Base**: Balanced speed/accuracy ⭐ Recommended
+- **Small**: More accurate (slower)
+- **Medium**: High accuracy (much slower)
+- **Large**: Best accuracy (very slow, GPU recommended)
 
-# 5. Run application
-streamlit run app.py
-```
+## 📊 Technical Details
 
-Visit `http://localhost:8501` 🎉
+- **LLM**: Groq Cloud (Llama-3.3-70b-versatile)
+- **Transcription**: OpenAI Whisper
+- **Framework**: Streamlit + LangChain
+- **Video Processing**: yt-dlp
+- **Web Scraping**: BeautifulSoup4 + Requests
 
-### Docker Quick Start
+## 💡 Tips
 
-```bash
-docker-compose up -d
-# Access at http://localhost:8501
-```
+- Use **base** Whisper model for best speed/accuracy balance
+- Shorter summaries (200-300 words) are usually more focused
+- Cache saves your recent summaries - same URL/settings = instant results
+- GPU acceleration automatically activates if available
 
-## 📖 Usage Guide
+## 🛠️ Development
 
-### Basic Usage
+Built with modern Python best practices:
+- Modular architecture (7 focused modules)
+- Comprehensive error handling
+- Type hints throughout
+- Extensive logging
+- 30+ unit tests
+- Production-ready configuration
 
-1. **Paste a URL** (YouTube or Website)
-2. **Configure summary options** in the sidebar
-3. **Click "✨ Summarize Content"**
-4. **Export** your summary in preferred format
+## 📝 License
 
-### Example URLs
-
-**YouTube**: `https://www.youtube.com/watch?v=dQw4w9WgXcQ`
-**Website**: `https://en.wikipedia.org/wiki/Artificial_intelligence`
-
-## 🏗️ Project Structure
-
-```
-yt-web-summarizer/
-├── app.py                    # Main Streamlit application
-├── config.py                 # Configuration management
-├── services.py               # Core services (YouTube, Website, LLM)
-├── utils.py                  # Utilities (validation, caching, rate limiting)
-├── logger.py                 # Logging setup
-├── exceptions.py             # Custom exceptions
-├── test_app.py              # Unit tests (pytest)
-├── requirements.txt          # Python dependencies
-├── Dockerfile               # Docker configuration
-├── docker-compose.yml       # Docker Compose setup
-├── .env.example             # Environment template
-├── PRODUCTION_GUIDE.md      # Production deployment guide
-├── DEPLOYMENT.md            # Detailed deployment instructions
-└── .github/workflows/       # CI/CD pipeline
-```
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-```env
-# API Configuration
-GROQ_API_KEY=your_key_here
-GROQ_MODEL=llama3-8b-8192
-
-# Summarization
-DEFAULT_SUMMARY_LENGTH=300
-SUMMARY_STYLES=balanced,bullet_points,executive,technical,simplified
-
-# Caching
-ENABLE_CACHE=true
-CACHE_TTL_SECONDS=3600
-
-# Rate Limiting
-ENABLE_RATE_LIMITING=true
-RATE_LIMIT_CALLS=10
-RATE_LIMIT_PERIOD_SECONDS=60
-
-# Features
-ENABLE_HISTORY=true
-ENABLE_EXPORT=true
-ENABLE_ADVANCED_OPTIONS=true
-
-# Logging
-LOG_LEVEL=INFO
-ENABLE_FILE_LOGGING=true
-
-# Deployment
-ENVIRONMENT=production
-THEME=light
-```
-
-## 🧪 Testing
-
-```bash
-# Run all tests
-pytest test_app.py -v
-
-# With coverage report
-pytest test_app.py --cov=. --cov-report=html
-
-# Run specific test class
-pytest test_app.py::TestURLValidator -v
-```
-
-## 🚀 Deployment
-
-### Streamlit Cloud (Recommended)
-1. Push code to GitHub
-2. Connect to [Streamlit Cloud](https://streamlit.io/cloud)
-3. Add Groq API key to secrets
-4. Deploy with one click
-
-### Docker
-```bash
-docker build -t yt-summarizer .
-docker run -p 8501:8501 -e GROQ_API_KEY=your_key yt-summarizer
-```
-
-### VPS/Self-Hosted
-See [DEPLOYMENT.md](DEPLOYMENT.md) for comprehensive guides including:
-- Systemd service setup
-- Nginx reverse proxy
-- SSL/TLS configuration
-- Kubernetes deployment
-- AWS EC2 + ALB setup
-
-## 🔒 Security
-
-- ✅ Input validation on all URLs
-- ✅ API key validation before requests
-- ✅ Never stores sensitive data
-- ✅ Rate limiting to prevent abuse
-- ✅ HTTPS/SSL in production
-- ✅ Environment-based configuration
-- ✅ No hardcoded secrets
-
-## 📊 Performance
-
-- **Caching**: Reduces API calls by ~70%
-- **Rate Limiting**: Prevents cost overruns
-- **GPU Acceleration**: 5-10x faster with CUDA
-- **Efficient Prompt Engineering**: Optimized prompts for accuracy
-- **Memory Optimization**: Automatic cleanup
-
-## 🎓 How It Works
-
-```
-User Input (URL)
-    ↓
-Validation (URL type detection)
-    ↓
-Content Extraction
-  ├─ YouTube: Download → Transcribe with Whisper
-  └─ Website: Load → Extract text
-    ↓
-LLM Processing (Groq API)
-    ↓
-Summary Generation (5 styles available)
-    ↓
-Cache & Export
-```
-
-## 📈 Comparison with Alternatives
-
-| Feature | This Project | ChatGPT | Claude | Gemini |
-|---------|-------------|---------|--------|---------|
-| YouTube Support | ✅ | ❌ | ❌ | ❌ |
-| Self-Hosted | ✅ | ❌ | ❌ | ❌ |
-| Multiple Styles | ✅ | ❌ | ✅ | ✅ |
-| Caching | ✅ | ❌ | ❌ | ❌ |
-| Rate Limiting | ✅ | ❌ | ❌ | ❌ |
-| Cost Efficient | ✅ | ❌ | ❌ | ❌ |
-| Production Ready | ✅ | N/A | N/A | N/A |
-
-## 🐛 Troubleshooting
-
-### "Groq API Error"
-- Verify API key is correct
-- Check rate limit status
-- Ensure sufficient API credits
-
-### "Whisper Error"
-- Install FFmpeg: `sudo apt install ffmpeg`
-- Check CUDA availability (optional)
-- Verify internet connection
-
-### "Import Error"
-```bash
-pip install -r requirements.txt --force-reinstall
-```
-
-See [PRODUCTION_GUIDE.md](PRODUCTION_GUIDE.md) for more solutions.
-
-## 📚 Documentation
-
-- [Production Guide](PRODUCTION_GUIDE.md) - Architecture, configuration, monitoring
-- [Deployment Guide](DEPLOYMENT.md) - Step-by-step deployment instructions
-- [API Reference](#) - Service and utility documentation
+MIT License - Feel free to use and modify!
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-```bash
-# Fork → Create feature branch → Make changes → Submit PR
-git checkout -b feature/amazing-feature
-git commit -m "Add amazing feature"
-git push origin feature/amazing-feature
-```
-
-## 📄 License
-
-MIT License - See [LICENSE](LICENSE) file for details
-
-## 🙏 Acknowledgments
-
-- [Groq](https://groq.com/) - Fast LLM inference
-- [OpenAI Whisper](https://github.com/openai/whisper) - Audio transcription
-- [LangChain](https://python.langchain.com/) - LLM framework
-- [Streamlit](https://streamlit.io/) - Web framework
-
-## 📞 Support & Contact
-
-- 📧 Email: [reethj-07@github.com](mailto:reethj-07@github.com)
-- 🐛 Issues: [GitHub Issues](https://github.com/reethj-07/yt-web-summarizer/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/reethj-07/yt-web-summarizer/discussions)
-
-## 🎯 Roadmap
-
-- [ ] Multi-language output
-- [ ] Video thumbnail extraction
-- [ ] Comparison view for multiple summaries
-- [ ] Browser extension
-- [ ] Mobile app
-- [ ] Advanced analytics dashboard
-- [ ] Integration with Slack/Teams
+Found a bug or have a feature request? Please open an issue on GitHub!
 
 ---
 
-<div align="center">
-
-Made with ❤️ by [reethj-07](https://github.com/reethj-07)
-
-⭐ If you found this helpful, please consider starring the repo! ⭐
-
-**[View Project](https://github.com/reethj-07/yt-web-summarizer)** • **[Report Issue](https://github.com/reethj-07/yt-web-summarizer/issues)** • **[Request Feature](https://github.com/reethj-07/yt-web-summarizer/issues)**
-
-</div>
+**Made with ❤️ using Streamlit, LangChain, and Groq**
