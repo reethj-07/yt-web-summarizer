@@ -10,7 +10,7 @@ langchain-core==0.3.68
 
 # Audio & Video Processing
 openai-whisper==20250625
-yt-dlp==2025.6.30
+yt-dlp>=2025.2.0  # Allow latest version for YouTube compatibility
 
 # ML & Scientific Computing
 torch==2.7.1
