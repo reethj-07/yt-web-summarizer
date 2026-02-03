@@ -18,6 +18,8 @@ numpy==2.2.6
 
 # Utilities & Validation
 validators==0.28.1
+beautifulsoup4==4.12.3
+requests==2.31.0
 
 # Testing & Development
 pytest==8.0.0
